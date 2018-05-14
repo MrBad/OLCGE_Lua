@@ -11,3 +11,6 @@ Most recent Visual Studio
 ## Third Part
 
 All licese are located in LICENSES
+
+Selene: https://github.com/jeremyong/Selene
+LUA: https://www.lua.org/
