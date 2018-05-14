@@ -12,5 +12,6 @@ Most recent Visual Studio
 
 All licese are located in LICENSES
 
-Selene: https://github.com/jeremyong/Selene
-LUA: https://www.lua.org/
+- Selene: https://github.com/jeremyong/Selene
+- LUA: https://www.lua.org/
+- olcConsoleGameEngine: https://github.com/OneLoneCoder/videos
