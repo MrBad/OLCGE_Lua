@@ -1,0 +1,41 @@
+frogger = nil
+playerx = 1
+playery = 10
+
+lineSpaceing = 1
+
+function Init()
+    cge.SetTitle("Testing")
+end
+
+function OnUserCreate()
+    frogger = cge.CreateSprite("./game/assets/frog.spr")
+
+    return true
+end
+
+function OnUserUpdate(fElapsedTime)
+    if cge.IsKeyPressed(Keys.Left) then
+        playerx = playerx - 1
+    end
+
+    if cge.IsKeyPressed(Keys.Right) then
+        playerx = playerx + 1
+    end
+
+    if cge.IsKeyPressed(Keys.Down) then
+        playery = playery + 1
+    end
+
+    if cge.IsKeyPressed(Keys.Up) then
+        playery = playery - 1
+    end
+
+    cge.Fill(0, 0, cge.ScreenWidth(), cge.ScreenHeight(), pixel.SPACE, colour.BG_BLACK)
+    cge.DrawString(0, 0, "frogger", colour.FG_WHITE)
+    cge.DrawString(0, 1 + lineSpaceing, "x:" .. cge.GetMouseX(), colour.FG_WHITE)
+    cge.DrawString(0, 2 + lineSpaceing, "y:" .. cge.GetMouseY(), colour.FG_WHITE)
+    cge.DrawSprite(playerx, playery, frogger)
+    cge.Draw(1, 25, pixel.SOLID, colour.FG_RED)
+    return true
+end
