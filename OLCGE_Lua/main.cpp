@@ -10,7 +10,7 @@
 class OLCGE_Lua : public olcConsoleGameEngine
 {
 public:
-	OLCGE_Lua(std::wstring title) : olcConsoleGameEngine() {
+	OLCGE_Lua() {
 		this->state = new sel::State(true);
 		setupCge();
 		setupColours();
@@ -228,11 +228,8 @@ int main() {
 	int height = int(state["console"]["height"]);
 	int fontw = int(state["console"]["fontw"]);
 	int fonth = int(state["console"]["fonth"]);
-	std::string strString = state["console"]["title"];
 
-	std::wstring title(strString.begin(), strString.end());
-
-	OLCGE_Lua game(title);
+	OLCGE_Lua game;
 	game.ConstructConsole(width, height, fontw, fonth);
 	game.Start();
 
