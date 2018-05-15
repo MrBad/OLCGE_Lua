@@ -1,3 +1,5 @@
+require("system.keys")
+
 frogger = nil
 playerx = 1
 playery = 10
@@ -15,19 +17,19 @@ function OnUserCreate()
 end
 
 function OnUserUpdate(fElapsedTime)
-    if cge.IsKeyPressed(Keys.Left) then
+    if input.IsKeyPressed(Keys.Left) then
         playerx = playerx - 1
     end
 
-    if cge.IsKeyPressed(Keys.Right) then
+    if input.IsKeyPressed(Keys.Right) then
         playerx = playerx + 1
     end
 
-    if cge.IsKeyPressed(Keys.Down) then
+    if input.IsKeyPressed(Keys.Down) then
         playery = playery + 1
     end
 
-    if cge.IsKeyPressed(Keys.Up) then
+    if input.IsKeyPressed(Keys.Up) then
         playery = playery - 1
     end
 
@@ -35,8 +37,9 @@ function OnUserUpdate(fElapsedTime)
     cge.FillCircle(25, 25, 5, pixel.SPACE, colour.BG_RED)
 
     cge.DrawString(0, 0, "frogger", colour.FG_WHITE)
-    cge.DrawString(0, 1 + lineSpaceing, "x:" .. cge.GetMouseX(), colour.FG_WHITE)
-    cge.DrawString(0, 2 + lineSpaceing, "y:" .. cge.GetMouseY(), colour.FG_WHITE)
+    cge.DrawString(0, 1 + lineSpaceing, "x:" .. input.GetMouseX(), colour.FG_WHITE)
+    cge.DrawString(0, 2 + lineSpaceing, "y:" .. input.GetMouseY(), colour.FG_WHITE)
+    cge.DrawString(0, 3 + lineSpaceing, "t:" .. tostring(fElapsedTime), colour.FG_WHITE)
     cge.DrawSprite(playerx, playery, frogger)
     cge.Draw(1, 25, pixel.SOLID, colour.FG_RED)
     return true

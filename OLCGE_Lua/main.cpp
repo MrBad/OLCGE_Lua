@@ -13,10 +13,10 @@ public:
 	OLCGE_Lua(std::string gameFolder) {
 		this->state = new sel::State(true);
 		setupCge();
+		setupInput();
 		setupColours();
 		setupPixelTypes();
 
-		this->state.Load("./system/keys.lua");
 		this->state.Load("./" + gameFolder + "/main.lua");
 
 		auto init = this->state["Init"];
@@ -52,10 +52,21 @@ private:
 			"ScreenWidth", &OLCGE_Lua::ScreenWidth,
 
 			"SetTitle", &OLCGE_Lua::bridgeSetTitle,
-			"IsFocused", &OLCGE_Lua::IsFocused,
+			"IsFocused", &OLCGE_Lua::IsFocused
+		);
 
+		auto print = [](std::string str) {
+			OutputDebugStringA(str.c_str());
+			OutputDebugStringA("\n");
+		};
+		this->state["debug"] = print;
+	}
+
+	void setupInput() {
+		this->state["input"].SetObj(*this,
 			"GetMouseX", &OLCGE_Lua::GetMouseX,
 			"GetMouseY", &OLCGE_Lua::GetMouseY,
+
 			"IsMousePressed", &OLCGE_Lua::IsMousePressed,
 			"IsMouseReleased", &OLCGE_Lua::IsMouseReleased,
 			"IsMouseHeld", &OLCGE_Lua::IsMouseHeld,
@@ -64,12 +75,6 @@ private:
 			"IsKeyReleased", &OLCGE_Lua::IsKeyReleased,
 			"IsKeyHeld", &OLCGE_Lua::IsKeyHeld
 		);
-
-		auto print = [](std::string str) {
-			OutputDebugStringA(str.c_str());
-			OutputDebugStringA("\n");
-		};
-		this->state["debug"] = print;
 	}
 
 	void setupColours() {
