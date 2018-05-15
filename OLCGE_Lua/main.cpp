@@ -10,14 +10,14 @@
 class OLCGE_Lua : public olcConsoleGameEngine
 {
 public:
-	OLCGE_Lua() {
+	OLCGE_Lua(std::string gameFolder) {
 		this->state = new sel::State(true);
 		setupCge();
 		setupColours();
 		setupPixelTypes();
 
 		this->state.Load("./system/keys.lua");
-		this->state.Load("./game/main.lua");
+		this->state.Load("./" + gameFolder + "/main.lua");
 
 		auto init = this->state["Init"];
 
@@ -65,7 +65,11 @@ private:
 			"IsKeyHeld", &OLCGE_Lua::IsKeyHeld
 		);
 
-
+		auto print = [](std::string str) {
+			OutputDebugStringA(str.c_str());
+			OutputDebugStringA("\n");
+		};
+		this->state["debug"] = print;
 	}
 
 	void setupColours() {
@@ -222,14 +226,18 @@ protected:
 
 int main() {
 	sel::State state;
-	state.Load("./game/config.lua");
+	state.Load("./config.lua");
+
+	std::string gameFolder = state["game"]["folder"];
+	state.Load("./" + gameFolder + "/options.lua");
+
 
 	int width = int(state["console"]["width"]);
 	int height = int(state["console"]["height"]);
 	int fontw = int(state["console"]["fontw"]);
 	int fonth = int(state["console"]["fonth"]);
 
-	OLCGE_Lua game;
+	OLCGE_Lua game(gameFolder);
 	game.ConstructConsole(width, height, fontw, fonth);
 	game.Start();
 

@@ -32,6 +32,8 @@ function OnUserUpdate(fElapsedTime)
     end
 
     cge.Fill(0, 0, cge.ScreenWidth(), cge.ScreenHeight(), pixel.SPACE, colour.BG_BLACK)
+    cge.FillCircle(25, 25, 5, pixel.SPACE, colour.BG_RED)
+
     cge.DrawString(0, 0, "frogger", colour.FG_WHITE)
     cge.DrawString(0, 1 + lineSpaceing, "x:" .. cge.GetMouseX(), colour.FG_WHITE)
     cge.DrawString(0, 2 + lineSpaceing, "y:" .. cge.GetMouseY(), colour.FG_WHITE)
