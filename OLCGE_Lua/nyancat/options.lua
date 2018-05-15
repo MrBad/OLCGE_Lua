@@ -1,6 +1,6 @@
 console = {
     width = 80,
     height = 80,
-    fonth = 8,
-    fontw = 8
+    fonth = 4,
+    fontw = 4
 }
