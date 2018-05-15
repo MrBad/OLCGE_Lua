@@ -1,3 +1,3 @@
 game = {
-    folder = "test"
+    folder = "nyancat"
 }

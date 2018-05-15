@@ -209,7 +209,7 @@ protected:
 
 	virtual bool OnUserUpdate(float fElapsedTime)
 	{
-		return bool(state["OnUserUpdate"](fElapsedTime));
+		return bool(state["OnUserUpdate"]((double)fElapsedTime));
 	}
 
 	virtual bool OnUserDestroy() {
@@ -230,7 +230,6 @@ int main() {
 
 	std::string gameFolder = state["game"]["folder"];
 	state.Load("./" + gameFolder + "/options.lua");
-
 
 	int width = int(state["console"]["width"]);
 	int height = int(state["console"]["height"]);
