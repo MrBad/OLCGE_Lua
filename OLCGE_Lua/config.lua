@@ -1,3 +1,3 @@
 game = {
-    folder = "balls"
+    folder = "test"
 }
