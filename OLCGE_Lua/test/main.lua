@@ -9,7 +9,7 @@ function Init()
 end
 
 function OnUserCreate()
-    frogger = cge.CreateSprite("./game/assets/frog.spr")
+    frogger = cge.CreateSprite("./test/assets/frog.spr")
 
     return true
 end
