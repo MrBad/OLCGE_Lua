@@ -33,7 +33,7 @@ function OnUserUpdate(fElapsedTime)
         playery = playery - 1
     end
 
-    if input.IsMousePressed(Keys.SDL_BUTTON_LEFT) then
+    if input.IsMousePressed(Mouse.SDL_BUTTON_LEFT) then
         playerx = playerx + 5
         playery = playery + 5
     end
