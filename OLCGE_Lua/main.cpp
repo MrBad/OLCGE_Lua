@@ -3,7 +3,7 @@
 #include <stack>
 
 #include "selene.h"
-#include "olcConsoleGameEngine.h"
+#include "olcConsoleGameEngineSDL.h"
 
 #define stringify( name ) # name
 
@@ -56,8 +56,8 @@ private:
 		);
 
 		auto print = [](std::string str) {
-			OutputDebugStringA(str.c_str());
-			OutputDebugStringA("\n");
+			// OutputDebugStringA(str.c_str());
+			// OutputDebugStringA("\n");
 		};
 		this->state["debug"] = print;
 	}
@@ -67,9 +67,11 @@ private:
 			"GetMouseX", &OLCGE_Lua::GetMouseX,
 			"GetMouseY", &OLCGE_Lua::GetMouseY,
 
+			/*
 			"IsMousePressed", &OLCGE_Lua::IsMousePressed,
 			"IsMouseReleased", &OLCGE_Lua::IsMouseReleased,
 			"IsMouseHeld", &OLCGE_Lua::IsMouseHeld,
+			*/
 
 			"IsKeyPressed", &OLCGE_Lua::IsKeyPressed,
 			"IsKeyReleased", &OLCGE_Lua::IsKeyReleased,
@@ -118,7 +120,7 @@ private:
 		this->state["pixel"]["THREEQUARTERS"] = int(PIXEL_THREEQUARTERS);
 		this->state["pixel"]["HALF"] = int(PIXEL_HALF);
 		this->state["pixel"]["QUARTER"] = int(PIXEL_QUARTER);
-		this->state["pixel"]["SPACE"] = int(PIXEL_SPACE);
+		this->state["pixel"]["SPACE"] = int(0x20);
 	}
 
 	// These are bridge functions as some functions call werid values
@@ -193,6 +195,7 @@ private:
 	}
 
 	// Mouse Input
+	/*
 	bool IsMousePressed(int nMouseButtonID) {
 		return m_mouse[nMouseButtonID - 1].bPressed;
 	}
@@ -204,6 +207,7 @@ private:
 	bool IsMouseHeld(int nMouseButtonID) {
 		return m_mouse[nMouseButtonID - 1].bHeld;
 	}
+	*/
 
 protected:
 
