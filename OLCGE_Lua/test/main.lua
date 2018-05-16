@@ -17,20 +17,25 @@ function OnUserCreate()
 end
 
 function OnUserUpdate(fElapsedTime)
-    if input.IsKeyPressed(Keys.Left) then
+    if input.IsKeyPressed(Keys.SDL_SCANCODE_A) then
         playerx = playerx - 1
     end
 
-    if input.IsKeyPressed(Keys.Right) then
+    if input.IsKeyPressed(Keys.SDL_SCANCODE_D) then
         playerx = playerx + 1
     end
 
-    if input.IsKeyPressed(Keys.Down) then
+    if input.IsKeyPressed(Keys.SDL_SCANCODE_S) then
         playery = playery + 1
     end
 
-    if input.IsKeyPressed(Keys.Up) then
+    if input.IsKeyPressed(Keys.SDL_SCANCODE_W) then
         playery = playery - 1
+    end
+
+    if input.IsMousePressed(Keys.SDL_BUTTON_LEFT) then
+        playerx = playerx + 5
+        playery = playery + 5
     end
 
     cge.Fill(0, 0, cge.ScreenWidth(), cge.ScreenHeight(), pixel.SPACE, colour.BG_BLACK)

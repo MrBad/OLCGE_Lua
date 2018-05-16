@@ -397,7 +397,8 @@ public:
 		
 		memset(m_keyNewState, 0, 512 * sizeof(bool));
 		memset(m_keyOldState, 0, 512 * sizeof(bool));
-		memset(m_keys._state, 0, 512 * sizeof(sKeyState));
+		memset(m_keys.k_state, 0, 512 * sizeof(sKeyState));
+		memset(m_mouse.m_state, 0, 5 * sizeof(sKeyState));
 		m_mousePosX = 0;
 		m_mousePosY = 0;
 
@@ -694,7 +695,7 @@ private:
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
 		
-		char *str = new char[_MAX_PATH];
+		char *str = new char[255];
 		sprintf(str, "%ls", m_sAppName.c_str());
 
 		// Create Window
@@ -753,27 +754,68 @@ private:
 							m_keyNewState[k] = false;
 						}
 						break;
+						case SDL_MOUSEMOTION:
+						{
+							m_mousePosX = e.motion.x;
+							m_mousePosY = e.motion.y;
+						}
+						break;
+						case SDL_MOUSEBUTTONDOWN:
+						{
+							int k = e.button.button;
+							m_mouseNewState[k] = true;
+						}
+						break;
+						case SDL_MOUSEBUTTONUP:
+						{
+							int k = e.button.button;
+							m_mouseNewState[k] = false;
+						}
+						break;
+						break;
 
 					}
+				}
+
+				for (int m = 0; m < 5; m++)
+				{
+					m_mouse.m_state[m].bPressed = false;
+					m_mouse.m_state[m].bReleased = false;
+
+					if (m_mouseNewState[m] != m_mouseOldState[m])
+					{
+						if (m_mouseNewState[m])
+						{
+							m_mouse.m_state[m].bPressed = true;
+							m_mouse[m].bHeld = true;
+						}
+						else
+						{
+							m_mouse.m_state[m].bReleased = true;
+							m_mouse.m_state[m].bHeld = false;
+						}
+					}
+
+					m_mouseOldState[m] = m_mouseNewState[m];
 				}
 
 				// Handle Keyboard Input
 				for (int k = 0; k < 512; k++)
 				{					
-					m_keys._state[k].bPressed = false;
-					m_keys._state[k].bReleased = false;
+					m_keys.k_state[k].bPressed = false;
+					m_keys.k_state[k].bReleased = false;
 
 					if (m_keyNewState[k] != m_keyOldState[k])
 					{
 						if (m_keyNewState[k] == true)
 						{
-							m_keys._state[k].bPressed = !m_keys._state[k].bHeld;
-							m_keys._state[k].bHeld = true;
+							m_keys.k_state[k].bPressed = !m_keys.k_state[k].bHeld;
+							m_keys.k_state[k].bHeld = true;
 						}
 						else
 						{
-							m_keys._state[k].bReleased = true;
-							m_keys._state[k].bHeld = false;
+							m_keys.k_state[k].bReleased = true;
+							m_keys.k_state[k].bHeld = false;
 						}
 					}
 
@@ -859,7 +901,7 @@ private:
 
 				// Update Title & Present Screen Buffer
 				char s[256];
-				sprintf_s(s, 256, "OneLoneCoder.com - Console Game Engine (SDL) - %s - FPS: %3.2f", m_sAppName.c_str(), 1.0f / fElapsedTime);
+				sprintf_s(s, 256, "OneLoneCoder.com - Console Game Engine (SDL) - %ls - FPS: %3.2f", m_sAppName.c_str(), 1.0f / fElapsedTime);
 				SDL_SetWindowTitle(m_window, s);
 
 				//WriteConsoleOutput(m_hConsole, m_bufScreen, { (short)m_nScreenWidth, (short)m_nScreenHeight }, { 0,0 }, &m_rectWindow);
@@ -953,17 +995,22 @@ protected:
 
 	struct sKeyStateWrap
 	{
-		sKeyState _state[512];
+		sKeyState k_state[512];
+		sKeyState m_state[5];
 
 	public:
 		sKeyState & operator[] (int nKeyID)
 		{
 			SDL_Scancode scode = SDL_SCANCODE_UNKNOWN;
 
+			if (nKeyID > 2000) {
+				return m_state[nKeyID - 2000];
+			}
+
 			if (nKeyID > KEY_OFFSET)
 			{
 				int scode = (SDL_Scancode)nKeyID - KEY_OFFSET;
-				return _state[scode];
+				return k_state[scode];
 			}			
 			
 			switch (nKeyID)
@@ -1019,10 +1066,10 @@ protected:
 			default: scode = (SDL_Scancode)nKeyID;
 			}
 
-			return _state[scode];
+			return k_state[scode];
 		}
 
-	} m_keys; 
+	} m_keys, m_mouse; 
 
 	int m_mousePosX;
 	int m_mousePosY;
@@ -1036,7 +1083,9 @@ public:
 
 	int GetMouseX() { return m_mousePosX; }
 	int GetMouseY() { return m_mousePosY; }
-	//sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
+	sKeyState GetMouse(int nMouseButtonID) { 
+		return m_mouse[nMouseButtonID]; 
+	}
 	bool IsFocused() { return m_bConsoleInFocus; }
 
 

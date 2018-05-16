@@ -67,11 +67,9 @@ private:
 			"GetMouseX", &OLCGE_Lua::GetMouseX,
 			"GetMouseY", &OLCGE_Lua::GetMouseY,
 
-			/*
 			"IsMousePressed", &OLCGE_Lua::IsMousePressed,
 			"IsMouseReleased", &OLCGE_Lua::IsMouseReleased,
 			"IsMouseHeld", &OLCGE_Lua::IsMouseHeld,
-			*/
 
 			"IsKeyPressed", &OLCGE_Lua::IsKeyPressed,
 			"IsKeyReleased", &OLCGE_Lua::IsKeyReleased,
@@ -127,7 +125,7 @@ private:
 private:
 	void bridgeSetTitle(std::string title) {
 		std::wstring data(title.begin(), title.end());
-		
+
 		m_sAppName = data;
 	}
 
@@ -183,31 +181,29 @@ private:
 
 	// Keyboard input
 	bool IsKeyPressed(int nKeyID) {
-		return m_keys[nKeyID].bPressed;
+		return GetKey(nKeyID).bPressed;
 	}
 
 	bool IsKeyReleased(int nKeyID) {
-		return m_keys[nKeyID].bReleased;
+		return GetKey(nKeyID).bReleased;
 	}
 
 	bool IsKeyHeld(int nKeyID) {
-		return m_keys[nKeyID].bHeld;
+		return GetKey(nKeyID).bHeld;
 	}
 
 	// Mouse Input
-	/*
 	bool IsMousePressed(int nMouseButtonID) {
-		return m_mouse[nMouseButtonID - 1].bPressed;
+		return GetMouse(nMouseButtonID).bPressed;
 	}
 
 	bool IsMouseReleased(int nMouseButtonID) {
-		return m_mouse[nMouseButtonID - 1].bReleased;
+		return GetMouse(nMouseButtonID).bReleased;
 	}
 
 	bool IsMouseHeld(int nMouseButtonID) {
-		return m_mouse[nMouseButtonID - 1].bHeld;
+		return GetMouse(nMouseButtonID).bHeld;
 	}
-	*/
 
 protected:
 
