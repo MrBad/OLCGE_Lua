@@ -109,12 +109,18 @@ http://www.twitch.tv/javidx9
 #pragma once
 
 #ifndef UNICODE
-#error Please enable UNICODE for your compiler! VS: Project Properties -> General -> \
+//#error Please enable UNICODE for your compiler! VS: Project Properties -> General -> \
 Character Set -> Use Unicode. Thanks! For now, I'll try enabling it for you - Javidx9
 #define UNICODE
 #define _UNICODE
 #endif
 
+#ifndef _MAX_PATH
+#define _MAX_PATH PATH_MAX
+#endif
+#ifndef sprintf_s
+#define sprintf_s snprintf
+#endif
 
 #define __STDC_LIB_EXT1__ 
 #define __STDC_WANT_LIB_EXT1__ 1
@@ -416,8 +422,14 @@ public:
 
 
 		// Allocate memory for screen buffer
+#ifndef LINUX
 		m_bufScreen[0] = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight]{ 0 };
 		m_bufScreen[1] = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight]{ 0 };
+#else
+		m_bufScreen[0] = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight];
+		m_bufScreen[1] = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight];
+		memset(m_bufScreen, 0, 2 * sizeof(struct CHAR_INFO) * m_nScreenWidth * m_nScreenHeight);
+#endif
 		m_nCurrentBuffer = 0;
 
 		return 1;
